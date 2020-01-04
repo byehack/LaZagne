@@ -81,7 +81,7 @@ class WinProcess(BaseProcess):
         PROCESS_VM_READ = 0x0010
 
         psapi.EnumProcesses(byref(lpidProcess), cb, byref(cbNeeded))
-        nReturned = int(cbNeeded.value/sizeof(c_ulong()))
+        nReturned = cbNeeded.value//sizeof(c_ulong())
 
         pidProcess = [i for i in lpidProcess][:nReturned]
         for pid in pidProcess:

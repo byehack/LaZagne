@@ -3,8 +3,8 @@
 
 """
 Code based from these two awesome projects: 
-- DPAPICK   : https://bitbucket.org/jmichel/dpapick
-- DPAPILAB  : https://github.com/dfirfpi/dpapilab
+- DPAPICK  : https://bitbucket.org/jmichel/dpapick
+- DPAPILAB : https://github.com/dfirfpi/dpapilab
 """
 
 import codecs
@@ -151,7 +151,7 @@ class VaultAttribute(DataStruct):
         self.size = data.eat("L")
         if self.size > 0:
             self.has_iv = ord(data.eat("1s"))
-            
+
             if self.has_iv == 1:
                 self.iv_size = data.eat("L")
                 self.iv = data.eat(str(self.iv_size)+ "s")
@@ -229,7 +229,7 @@ class VaultVsch(DataStruct):
 
     def parse(self, data):
         self.version = data.eat("L")
-        self.schema_guid = "%0x-%0x-%0x-%0x%0x-%0x%0x%0x%0x%0x%0x" % data.eat("L2H8B")
+        self.schema_guid = b"%0x-%0x-%0x-%0x%0x-%0x%0x%0x%0x%0x%0x" % data.eat("L2H8B")
         self.vault_vsch_unknown_1 = data.eat("L")
         self.count = data.eat("L")
         self.schema_name = data.eat_length_and_string("L").decode("UTF-16LE").encode("utf-8").rstrip(b'\x00\x00')
