@@ -116,7 +116,6 @@ def get_secret_by_name(secaddr, name, lsakey, vista):
     root = get_root(secaddr)
     if not root:
         return None
-
     if isinstance(name, str):
         name = name.encode()
 

@@ -35,11 +35,9 @@ class Wifi(ModuleInfo):
             name = 'содержимое ключа'
         else: 
             name = 'содержимое ключа'.encode('utf-8')
-
         language_keys = [
             b'key content', b'contenu de la cl', name
         ]
-
         self.debug(u'Trying using netsh method')
         process = Popen(['netsh.exe', 'wlan', 'show', 'profile', '{SSID}'.format(SSID=ssid), 'key=clear'],
                         stdin=PIPE,
@@ -92,8 +90,9 @@ class Wifi(ModuleInfo):
                                             password = self.decrypt_using_lsa_secret(key=key)
                                             if not password:
                                                 password = self.decrypt_using_netsh(ssid=values['SSID'])
+
                                             if password:
-                                                values['Password'] = password
+                                                values['Password'] = password.rstrip("\x00")
                                             else:
                                                 values['INFO'] = '[!] Password not found.'
                                         except Exception:

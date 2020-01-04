@@ -57,7 +57,7 @@ class Outlook(ModuleInfo):
                     terminator = b'\x00\x00'
                     if password_bytes.endswith(terminator):
                         password_bytes = password_bytes[: -len(terminator)]
-                    
+
                     values[k[0]] = password_bytes.decode("utf-16")
                 except Exception as e:
                     self.debug(str(e))

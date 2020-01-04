@@ -49,7 +49,7 @@ class Vault(ModuleInfo):
 
                                             password = pPasswordVaultItem.contents.pPassword.contents.data.string
                                             # Remove password too long
-                                            if password and len(password) < 100:
+                                            if password is not None and len(password) < 2000:
                                                 values['Password'] = password
 
                                         pwd_found.append(values)
