@@ -27,7 +27,7 @@ class Credman(ModuleInfo):
                         pwd_found.append({
                             'URL': c.TargetName,
                             'Login': c.UserName,
-                            'Password': c.CredentialBlob[:c.CredentialBlobSize.real].replace(b"\x00", b"")
+                            'Password': c.CredentialBlob[:c.CredentialBlobSize.real]  # \\x00 could be deleted
                         })
 
             CredFree(creds)
