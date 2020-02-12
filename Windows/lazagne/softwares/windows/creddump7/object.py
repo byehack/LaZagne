@@ -97,10 +97,10 @@ def read_unicode_string(addr_space, types, member_list, vaddr):
     if readBuf is None:
         return None
 
-    try:
-        readBuf = readBuf.decode('UTF-16').encode('ascii')
-    except Exception:
-        return None
+    # try:
+    #     readBuf = readBuf.decode('UTF-16').encode('ascii')
+    # except Exception:
+    #     return None
 
     return readBuf
 

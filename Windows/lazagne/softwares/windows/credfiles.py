@@ -27,12 +27,8 @@ class CredFiles(ModuleInfo):
                 creds += [os.path.join(system_creds, cred_file) for cred_file in os.listdir(system_creds)]
 
             for cred_file in creds:
-                try:
-                    cred = constant.user_dpapi.decrypt_cred(cred_file)
-                except:
-                    print("--------------- filed: ", cred_file, "----------------")
-                    cred = False
-                if cred:
+                cred = constant.user_dpapi.decrypt_cred(cred_file)
+                if cred is not None:
                     pwd_found.append(cred)
 
         return pwd_found
