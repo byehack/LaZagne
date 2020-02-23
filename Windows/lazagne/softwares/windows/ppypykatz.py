@@ -34,7 +34,7 @@ class Pypykatz(ModuleInfo):
             for logon_session in logon_sessions:
 
                 # Right now kerberos_creds, dpapi_creds and credman_creds results are not used
-                user = logon_sessions[logon_session].to_dict()
+                user = logon_sessions[logon_session]
 
                 # Get cleartext password
                 for i in ['ssp_creds', 'livessp_creds', 'tspkg_creds', 'wdigest_creds']:
