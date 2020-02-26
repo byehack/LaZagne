@@ -629,8 +629,6 @@ def Win32CryptUnprotectData(cipherText, entropy=False, is_current_user=True, use
     if python_version == 2:
         cipherText = str(cipherText)
 
-    decrypted = None
-
     if is_current_user:
         bufferIn = c_buffer(cipherText, len(cipherText))
         blobIn = DATA_BLOB(len(cipherText), bufferIn)
@@ -641,32 +639,14 @@ def Win32CryptUnprotectData(cipherText, entropy=False, is_current_user=True, use
             blobEntropy = DATA_BLOB(len(entropy), bufferEntropy)
 
             if CryptUnprotectData(byref(blobIn), None, byref(blobEntropy), None, None, 0, byref(blobOut)):
-                decrypted = getData(blobOut)
+                return getData(blobOut)
 
-        else:
-            if CryptUnprotectData(byref(blobIn), None, None, None, None, 0, byref(blobOut)):
-                decrypted = getData(blobOut)
+        elif CryptUnprotectData(byref(blobIn), None, None, None, None, 0, byref(blobOut)):
+            return getData(blobOut)
 
-    if not decrypted:
-        can_decrypt = True
-        if not (user_dpapi and user_dpapi.unlocked):
-            from lazagne.config.dpapi_structure import are_masterkeys_retrieved
-            can_decrypt = are_masterkeys_retrieved()
-
-        if can_decrypt:
-            decrypted = user_dpapi.decrypt_encrypted_blob(cipherText)
-            if decrypted is False:
-                decrypted = None
-        else:
-            raise ValueError('MasterKeys not found')
-
-    if not decrypted:
-        if not user_dpapi:
-            raise ValueError('DPApi unavailable')
-        elif not user_dpapi.unlocked:
-            raise ValueError('DPApi locked')
-
-    return decrypted
+    elif user_dpapi and user_dpapi.unlocked:
+        # entropy should be an hex value
+        return user_dpapi.decrypt_encrypted_blob(cipherText, entropy_hex=entropy)
 
 
 def get_os_version():
