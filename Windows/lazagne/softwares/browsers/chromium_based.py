@@ -145,7 +145,7 @@ class ChromiumBased(ModuleInfo):
                         except:
                             password_bytes = None
 
-                    if password_bytes is not None:
+                    if password_bytes not in [None, False]:
                         password = password_bytes.decode("utf-8")
                     elif master_key:
                         password = self._decrypt_v80(password, master_key)
